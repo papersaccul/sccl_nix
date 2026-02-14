@@ -5,6 +5,7 @@
     ./fish.nix
     ./starship.nix
     ./git.nix
+    ./gh.nix
     ./alacritty.nix
     ./bat.nix
     ./eza.nix
