@@ -7,7 +7,7 @@
     settings = {
       user = {
         name = "papersaccul";
-        email = "paper@sacculos.local";
+        email = "papersaccul@github.com";
       };
 
       init.defaultBranch = "main";
