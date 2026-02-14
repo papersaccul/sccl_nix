@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, pkgs-unstable, ... }:
 
 {
   environment.systemPackages = with pkgs; [
@@ -22,18 +22,21 @@
     firefox
     networkmanagerapplet
     ayugram-desktop
-    discord
+    #discord
+    webcord
     # zapret
 
     # Coding
-    #zed-editor
-    #zed-editor-fhs
+    #pkgs-unstable.zed-editor
+    #pkgs-unstable.zed-editor-fhs
     lmstudio
     nixd
     lazygit
+    gh
     rustc
     cargo
     gcc
+
 
     # Gaming
     steam
@@ -43,13 +46,16 @@
     bottles
 
     # tools
-    #kdePackages.kdenlive
-    #krita
-    #aseprite
-    #blender
+    kdePackages.kdenlive
+    krita
+    aseprite
+    blender
     gparted
 
     # Audio
     easyeffects
+
+    # Office
+    libreoffice-fresh
   ];
 }

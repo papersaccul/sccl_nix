@@ -3,7 +3,7 @@
 
     services.zapret-discord-youtube = {
             enable = true;
-            config = "general(ALT7)";
+            config = "general(ALT)";
 
             listGeneral = [
             # discord

@@ -6,7 +6,7 @@
 
     settings = {
       user = {
-        name = "sccl";
+        name = "papersaccul";
         email = "paper@sacculos.local";
       };
 

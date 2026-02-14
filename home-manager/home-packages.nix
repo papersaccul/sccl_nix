@@ -26,9 +26,6 @@
     vlc
     mpv
 
-    # Office
-    libreoffice-fresh
-
     # Archive
     file-roller
 
