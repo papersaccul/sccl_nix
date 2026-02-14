@@ -6,7 +6,7 @@
     description = "Paper";
     extraGroups = [ "networkmanager" "wheel" "video" "audio" ];
     shell = pkgs.fish;
-    initialPassword = "changeme";
+    initialPassword = "change";
   };
 
   programs.fish.enable = true;

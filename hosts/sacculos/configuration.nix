@@ -4,6 +4,7 @@
   imports = [
     ./hardware-configuration.nix
     ./local-packages.nix
+    ./disko.nix
     ../../nixos/modules
   ];
 

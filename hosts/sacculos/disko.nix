@@ -1,7 +1,7 @@
+
 {
   disko.devices = {
-    disk = {
-      my-disk = {
+    disk.nvme0n1 = {
         device = "/dev/nvme0n1";
         type = "disk";
         content = {
@@ -12,7 +12,7 @@
               size = "256M";
               content = {
                type = "filesystem";
-                format = "fat32";
+                format = "vfat";
                 mountpoint = "/boot";
               };
             };
@@ -26,7 +26,7 @@
             };
 
             root = {
-              size = "25%";
+              size = "128G";
               content = {
                 type = "filesystem";
                 format = "ext4";
@@ -35,7 +35,7 @@
             };
 
             home = {
-              size = "100%FREE";
+              size = "100%";
               content = {
                 type = "filesystem";
                 format = "ext4";
@@ -47,5 +47,4 @@
         };
       };
     };
-  };
 }
