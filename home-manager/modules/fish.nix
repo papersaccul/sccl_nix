@@ -13,7 +13,7 @@
       cat = "bat";
 
       rebuild = "sudo nixos-rebuild switch --flake ~/sccl_nix/#sacculos";
-      update = "cd ~/sccl_nix/ && nix flake update && rebuild";
+      update = "cd ~/sccl_nix/ && sudo nix flake update && rebuild";
       clean = "sudo nix-collect-garbage -d";
 
       ".." = "cd ..";

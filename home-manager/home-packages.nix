@@ -5,6 +5,9 @@
     # Wayland essentials
     rofi
     xfce.thunar
+    xfce.thunar-archive-plugin
+    xfce.thunar-volman
+    xfce.tumbler
     grim
     slurp
     wl-clipboard

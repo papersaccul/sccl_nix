@@ -11,12 +11,12 @@
     gtk4.extraConfig = {
       gtk-application-prefer-dark-theme = true;
     };
+
+    iconTheme = {
+          name = "Papirus-Dark";
+          package = pkgs.papirus-icon-theme;
+    };
   };
 
   xfconf.enable = lib.mkForce false;
-
-  home.packages = with pkgs; [
-    nordic
-    papirus-icon-theme
-  ];
 }
