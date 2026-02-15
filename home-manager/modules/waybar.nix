@@ -11,10 +11,10 @@
         height = 34;
         spacing = 8;
 
-        modules-left = [ "hyprland/workspaces" "hyprland/window" ];
+        modules-left = [ "niri/workspaces" "niri/window" ];
         modules-center = [ "clock" ];
         modules-right = [
-          "hyprland/language"
+          "niri/language"
           "pulseaudio"
           "network"
           "cpu"
@@ -24,24 +24,23 @@
           "tray"
         ];
 
-        "hyprland/workspaces" = {
+        "niri/workspaces" = {
+          format = "{index}";
           on-click = "activate";
-          persistent-workspaces = {
-            "*" = 1;
-          };
         };
 
-        "hyprland/window" = {
+        "niri/window" = {
           format = "{}";
           max-length = 50;
           separate-outputs = true;
         };
 
-        "hyprland/language" = {
-        format-colemak_caws = "  Colemak-CAWS";
-        format-rulemak_caws = "  Rulemak-CAWS";
-	      min-length = 5;
-	      tooltip = true;
+        "niri/language" = {
+          format = " {}";
+          format-colemak_caws = "  Colemak-CAWS";
+          format-rulemak_caws = "  Rulemak-CAWS";
+          min-length = 5;
+          tooltip = true;
         };
 
         clock = {
@@ -106,12 +105,12 @@
           format-ethernet = "󰩟 {ipaddr}";
           format-disconnected = " Disconnected";
           tooltip-format = "{essid}\n{ipaddr}/{cidr}\n {bandwidthDownBits}  {bandwidthUpBits}";
-          on-click = "kitty nmtui";
+          on-click = "nmtui";
         };
 
         pulseaudio = {
           scroll-step = 5;
-          format = "{icon}  {volume}%";
+          format = "{icon}   {volume}%";
           format-muted = " Muted";
           format-icons = {
             headphone = "";

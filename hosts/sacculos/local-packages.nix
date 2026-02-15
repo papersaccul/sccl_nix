@@ -51,6 +51,7 @@
     aseprite
     blender
     gparted
+    audacity
 
     # Audio
     easyeffects
