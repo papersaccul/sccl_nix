@@ -29,35 +29,46 @@ let
   pkgs-unstable = import nixpkgs-unstable {
     inherit system;
   };
-in {
-  nixosConfigurations = {
-    sacculos = nixpkgs.lib.nixosSystem {
-      inherit system;
 
-      specialArgs = {
-        inherit inputs pkgs-unstable;
-      };
+  # host config creator
+  mkHost = hostName: nixpkgs.lib.nixosSystem {
+    inherit system;
 
-      modules = [
-        ./hosts/sacculos/configuration.nix
-        ./hosts/sacculos/disko.nix
-        ./nixos/modules/zapret.nix
-        stylix.nixosModules.stylix
-        disko.nixosModules.disko
-        home-manager.nixosModules.home-manager
-        {
-          home-manager = {
-            useGlobalPkgs = true;
-            useUserPackages = true;
-            users.paper = import ./home-manager/home.nix;
-
-            extraSpecialArgs = {
-              inherit inputs pkgs-unstable;
-            };
-          };
-        }
-      ];
+    specialArgs = {
+      inherit inputs pkgs-unstable;
     };
+
+    modules = [
+      ./hosts/${hostName}/configuration.nix
+      (if builtins.pathExists ./hosts/${hostName}/disko.nix 
+       then ./hosts/${hostName}/disko.nix 
+       else {})
+      ./nixos/modules/zapret.nix
+      stylix.nixosModules.stylix
+      disko.nixosModules.disko
+      home-manager.nixosModules.home-manager
+    ];
   };
+
+  # validate
+  isValidHost = name: type:
+    type == "directory" && 
+    builtins.pathExists (./hosts + "/${name}/configuration.nix");
+
+  # auto-discover hosts from the hosts/ directory
+  hostEntries = builtins.readDir ./hosts;
+  validHosts = builtins.filter 
+    (name: isValidHost name hostEntries.${name})
+    (builtins.attrNames hostEntries);
+
+  # convert list of host names to attribute set
+  hostsAttrSet = builtins.listToAttrs (
+    map (name: { 
+      name = name; 
+      value = mkHost name; 
+    }) validHosts
+  );
+in {
+  nixosConfigurations = hostsAttrSet;
 };
 }

@@ -6,20 +6,22 @@
     ./local-packages.nix
     ./disko.nix
     ../../nixos/modules
+    ../../profiles/paper/user.nix
   ];
 
   networking.hostName = "sacculos";
 
-  xdg.portal = {
-    enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-    config.common.default = "*";
-  };
+  # Home-manager configuration
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    users.paper = import ../../profiles/paper/home.nix;
 
-  environment.pathsToLink = [
-    "/share/applications"
-    "/share/xdg-desktop-portal"
-  ];
+    extraSpecialArgs = {
+      inherit inputs;
+      pkgs-unstable = inputs.nixpkgs-unstable.legacyPackages.${pkgs.system};
+    };
+  };
 
   # Stylix global theme (Nord)
   stylix = {

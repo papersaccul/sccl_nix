@@ -2,8 +2,10 @@
 
 {
   imports = [
-    ./home-packages.nix
-    ./modules
+    ../shared/packages.nix    # Base packages for all users
+    ../shared/modules         # Base configurations for all users
+    ./packages.nix            # Additional user-specific packages
+    ./modules                 # User-specific configuration overrides
   ];
 
   home = {

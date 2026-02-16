@@ -2,41 +2,35 @@
 
 {
   home.packages = with pkgs; [
-    # Wayland essentials
-    rofi
+    # CLI Tools
+    # Note: btop, bat, eza are configured via modules
+    neofetch
+    ripgrep
+    fd
+    fzf
+    zoxide
+
+    # GUI Applications
     xfce.thunar
     xfce.thunar-archive-plugin
     xfce.thunar-volman
     xfce.tumbler
-    grim
-    slurp
-    wl-clipboard
-    pavucontrol
-
-    # CLI tools
-    btop
-    neofetch
-    ripgrep
-    fd
-    bat
-    eza
-    fzf
-    zoxide
-
-    appimage-run
+    file-roller
 
     # Media
     vlc
     mpv
-
-    # Archive
-    file-roller
-
-    # PDF
-    zathura
     evince
+    # Note: zathura is configured via module
 
-    # Theme
+    # System Utilities
+    grim
+    slurp
+    wl-clipboard
+    pavucontrol
+    appimage-run
+
+    # Themes & Icons
     nordic
     papirus-icon-theme
     rose-pine-hyprcursor

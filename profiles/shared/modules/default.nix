@@ -18,5 +18,6 @@
     ./rofi.nix
     ./cursor.nix
     ./zed-editor.nix
+    ./btop.nix
   ];
 }
