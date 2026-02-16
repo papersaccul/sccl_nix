@@ -72,6 +72,11 @@
           Mod+Up { focus-window-up; }
           Mod+Down { focus-window-down; }
 
+          Mod+Shift+Left { move-column-left; }
+          Mod+Shift+Right { move-column-right; }
+          Mod+Shift+Up { move-window-up; }
+          Mod+Shift+Down { move-window-down; }
+
           Mod+1 { focus-workspace 1; }
           Mod+2 { focus-workspace 2; }
           Mod+3 { focus-workspace 3; }
@@ -107,6 +112,9 @@
           Mod+Comma { move-column-left; }
           Mod+Period { move-column-right; }
 
+          Mod+Shift+R { move-window-up; }
+          Mod+Ctrl+R { move-window-down; }
+
           Mod+BracketRight { focus-workspace-down; }
           Mod+BracketLeft { focus-workspace-up; }
           Mod+Shift+BracketLeft { move-column-to-workspace-down; }
@@ -115,8 +123,9 @@
           Mod+M { switch-preset-column-width; }
           Mod+Shift+M { maximize-column; }
 
-          Mod+N { consume-window-into-column; }
-          Mod+Shift+N { expel-window-from-column; }
+          // Объединить/разъединить окна в колонку (для вертикального стека)
+          Mod+V { consume-window-into-column; }
+          Mod+Shift+V { expel-window-from-column; }
 
           Mod+Space { toggle-window-floating; }
       }

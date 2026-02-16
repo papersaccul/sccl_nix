@@ -3,7 +3,6 @@
 {
   imports = [
     ./boot.nix
-    ./user.nix
     ./nix.nix
     ./net.nix
     ./timezone.nix

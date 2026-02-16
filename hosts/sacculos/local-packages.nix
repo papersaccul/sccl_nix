@@ -36,6 +36,7 @@
     rustc
     cargo
     gcc
+    kiro
 
 
     # Gaming
