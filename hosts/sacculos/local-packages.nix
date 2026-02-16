@@ -2,7 +2,7 @@
 
 {
   environment.systemPackages = with pkgs; [
-    # System utilities
+    # System utilities (available for all users)
     vim
     wget
     curl
@@ -10,7 +10,6 @@
     htop
     tree
     nano
-    hyfetch
     fastfetch
 
     # Archive tools
@@ -18,46 +17,10 @@
     unzip
     zip
 
-    # Network
-    firefox
+    # Network manager
     networkmanagerapplet
-    ayugram-desktop
-    #discord
+    
+    # Communication
     webcord
-    # zapret
-
-    # Coding
-    #pkgs-unstable.zed-editor
-    #pkgs-unstable.zed-editor-fhs
-    lmstudio
-    nixd
-    lazygit
-    gh
-    rustc
-    cargo
-    gcc
-    kiro
-
-
-    # Gaming
-    steam
-    protonplus
-    obs-studio
-    steam-run
-    bottles
-
-    # tools
-    kdePackages.kdenlive
-    krita
-    aseprite
-    blender
-    gparted
-    audacity
-
-    # Audio
-    easyeffects
-
-    # Office
-    libreoffice-fresh
   ];
 }

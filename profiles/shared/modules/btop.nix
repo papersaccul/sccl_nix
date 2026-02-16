@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, config, ... }:
 
 {
   programs.btop = {
@@ -8,4 +8,7 @@
       theme_background = false;
     };
   };
+
+  # Force overwrite existing config
+  xdg.configFile."btop/btop.conf".force = true;
 }

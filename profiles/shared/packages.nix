@@ -29,6 +29,14 @@
     wl-clipboard
     pavucontrol
     appimage-run
+    gparted
+
+    # Network
+    firefox
+
+    # Development
+    nixd
+    gh
 
     # Themes & Icons
     nordic

@@ -1,43 +1,130 @@
 # sccl_nix
 
-My NixOS config using flakes, home manager, disko.
+> /// NixOS config: `flakes` + `home-manager` + `disko`   
+> /// Modular host-profile architecture → scale across machines & users
+
 
 ![desktop_img](img/Niri.png)
 
 ## What's Inside
 
+> /// Personal setup: `host::sacculos` + `profile::paper`  
+> /// U can use as reference or starting point
+
 **Window Managers:**
-- **Niri** (main)
-- **Hyprland** 
+- **Niri** (main) - scrollable tiling
+- **Hyprland** - dynamic tiling
+- Custom layouts: `ColemakCAWS | RulemakCAWS` - works for all hosts & profiles
 
-**Global Software:**
-- **System:** vim, git, htop, fastfetch, lazygit
-- **Network:** firefox, ayugram, webcord
-- **Dev:** nixd, rustc, cargo, gcc, gh, lmstudio
-- **Gaming:** steam, bottles, obs-studio, protonplus
-- **Creative:** kdenlive, krita, aseprite, blender, audacity
-- **Office:** libreoffice
-
-**User Software (shared):**
+**Shared packages** → `profiles/shared/*` (all users):
 - **CLI:** neofetch, ripgrep, fd, fzf, zoxide, bat, eza, btop
 - **GUI:** thunar, vlc, mpv, evince, zathura
-- **Utils:** grim, slurp, wl-clipboard, pavucontrol
-- **Terminal:** alacritty with fish & starship prompt
+- **Utils:** grim, slurp, wl-clipboard, pavucontrol, appimage-run, gparted
+- **Network:** firefox
+- **Dev:** nixd, gh, zed-editor
+- **Terminal:** alacritty w/ fish & starship
 - **Launcher:** fuzzel (niri), rofi (hyprland)
 - **Bar:** waybar
 - **Themes:** Nordic, Papirus icons, Rose Pine cursor
+- **Fonts:** JetBrains Mono, Noto, Font Awesome, Nerd Fonts
 
-**Keyboard Layout:**
-- Colemak-CAWS / Rulemak-CAWS (custom layouts)
-- Switch w/ Right Win key
+**System packages** → `hosts/sacculos/*` (all users on this host):
+- **Utils:** vim, wget, curl, git, htop, tree, nano, fastfetch
+- **Archive:** p7zip, unzip, zip
+- **Network:** networkmanagerapplet, webcord
+- **Services:** zapret-discord-youtube (DPI bypass)
+
+**My profile** → `profiles/paper/*` (user-specific):
+- **Network:** ayugram
+- **Dev:** rustc, cargo, gcc, lmstudio, lazygit
+- **Gaming:** steam, bottles, obs-studio, protonplus, steam-run
+- **Creative:** kdenlive, krita, aseprite, blender, audacity
+- **Audio:** easyeffects
+- **Office:** libreoffice
 
 ## Table of Contents
 
+- [Host-Profile System](#host-profile-system)
 - [Config Structure](#config-structure)
-- [Adding New Users](#adding-new-users)
+- [Adding New Profiles](#adding-new-profiles)
 - [Adding New Hosts](#adding-new-hosts)
 - [Common Tasks](#common-tasks)
 - [Installation](#installation)
+
+---
+
+## Host-Profile System
+
+This config uses a modular host-profile architecture that separates machine-specific settings from user configurations.
+
+### How it works
+
+```mermaid
+flowchart TD
+    F[❄️ flake.nix<br/>Auto-discovery]
+
+    P1[👤 profiles/paper]
+    P2[👤 profiles/guest]
+
+    H1[🖥️  hosts/sacculos]
+    H2[💻 hosts/laptop]
+
+   NM[⚙️ nixos/modules<br/>System services]
+   PS[📦 profiles/shared<br/>Base configs&packages]
+
+    F --> H1
+    F --> H2
+    
+    H1 --> P1
+    H1 --> P2
+    H2 --> P2
+    
+    P1 --> PS
+    P2 --> PS
+    
+    H1 --> NM
+    H2 --> NM
+    
+    classDef flakeStyle fill:#517599,stroke:#5e81ac,stroke-width:2px,color:#000000
+    classDef hostStyle fill:#88c0d0,stroke:#5e81ac,stroke-width:2px,color:#000000
+    classDef profileStyle fill:#a3be8c,stroke:#8fbcbb,stroke-width:2px,color:#000000
+    classDef sharedStyle fill:#ebcb8b,stroke:#d08770,stroke-width:2px,color:#000000
+    classDef moduleStyle fill:#b48ead,stroke:#bf616a,stroke-width:2px,color:#000000
+    
+    class F flakeStyle
+    class H1,H2 hostStyle
+    class P1,P2 profileStyle
+    class PS sharedStyle
+    class NM moduleStyle
+```
+
+### Why it's cool
+
+**Separation:**
+- `Hosts` → hardware-specific: disk layout, drivers, system packages
+- `Profiles` → user-specific: packages, dotfiles, preferences
+- `Shared` → common base: WM configs, themes, base tools
+
+**Ez scaling:**
+- New machine? → Drop dir in `hosts/` (auto-discovered by flake)
+- New profile(user)? → Copy profile, tweak packages
+- Multiple profiles(users)? → Import multiple profiles in host config
+
+**DRY:**
+- Shared configs → `profiles/shared/`
+- User profiles → override only what u need
+- Zero copy-paste between machines
+
+
+**Example:**
+```
+hosts/sacculos (desktop)  →  profiles/paper (main user)    →  profiles/shared (base)
+                          →  profiles/guest (second user)  →  profiles/shared (base)
+
+hosts/laptop (portable)   →  profiles/paper (same user)    →  profiles/shared (base)
+```
+
+Same user profile works on different machines, same shared base for all users!
 
 ---
 
@@ -45,34 +132,32 @@ My NixOS config using flakes, home manager, disko.
 
 ```diff
 sccl_nix
- ├── flake.nix                # Main flake conf (auto-discovers hosts)
- ├── flake.lock               # Dependencies
+ ├── flake.nix                          # Main flake conf (auto-discovers hosts)
+ ├── flake.lock                         # Dependencies
  ├── profiles/
- │   ├── shared/             # Shared conf for all users
- │   │   ├── packages.nix    # Base packages w/ categories
- │   │   └── modules/        # Base program configs
- │   └── paper/              # User-specific conf
- │       ├── user.nix        # System user settings
- │       ├── home.nix        # Home Manager conf
- │       ├── packages.nix    # Extra user packages
- │       └── modules/        # Config overrides
+ │   ├── shared/                        # Shared conf for all users
+ │   │   ├── packages.nix               # Base packages w/ categories
+ │   │   └── modules/                   # Base program configs
+ │   └── paper/                         # User-specific conf
+ │       ├── user.nix                   # System user settings
+ │       ├── home.nix                   # Home Manager conf
+ │       ├── packages.nix               # Extra user packages
+ │       └── modules/                   # Config overrides
  ├── hosts/
- │   └── sacculos/           # Host-specific conf
+ │   └── sacculos/                      # Host-specific conf
+ │       ├── configuration.nix          # Main host config
+ │       ├── disko.nix                  # Disk partitioning
+ │       ├── hardware-configuration.nix # Generated file
+ │       └── local-packages.nix         # System-wide packages (for all profiles)
  └── nixos/
-     └── modules/            # Reusable NixOS modules
+     └── modules/                       # Reusable NixOS modules
 ```
-
-**What's cool:**
-- Just drop a new host dir in `hosts/` and it's auto-detected, no need to edit flake.nix
-- Shared base conf + per-user customization
-- Packages organized w/ categories & comments
-- Ez to scale
 
 ---
 
-## Adding New Users
+## Adding New Profiles
 
-### 1. Create user dir
+### 1. Create profile dir
 
 ```bash
 mkdir -p profiles/<username>/modules
@@ -80,14 +165,14 @@ mkdir -p profiles/<username>/modules
 
 ### 2. Create files
 
-U can copy from existing user and edit:
+U can copy from existing profile and edit:
 ```bash
 cp -r profiles/paper profiles/<username>
 ```
 
 Or create manually:
 
-**`profiles/<username>/user.nix`** - system user settings:
+**[`profiles/<username>/user.nix`](profiles/paper/user.nix)** - system user settings:
 ```nix
 { config, pkgs, ... }:
 
@@ -102,7 +187,7 @@ Or create manually:
 }
 ```
 
-**`profiles/<username>/home.nix`** - home manager conf:
+**[`profiles/<username>/home.nix`](profiles/paper/home.nix)** - home manager conf:
 ```nix
 { config, pkgs, inputs, ... }:
 
@@ -130,7 +215,7 @@ Or create manually:
 }
 ```
 
-**`profiles/<username>/packages.nix`** - ur extra packages:
+**[`profiles/<username>/packages.nix`](profiles/paper/packages.nix)** - ur extra packages:
 ```nix
 { config, pkgs, ... }:
 
@@ -145,7 +230,7 @@ Or create manually:
 }
 ```
 
-**`profiles/<username>/modules/default.nix`** - config overrides:
+**[`profiles/<username>/modules/default.nix`](profiles/paper/modules/default.nix)** - config overrides:
 ```nix
 { config, pkgs, ... }:
 
@@ -157,9 +242,9 @@ Or create manually:
 }
 ```
 
-### 3. Add user to host
+### 3. Add profile to host
 
-Edit `hosts/<hostname>/configuration.nix`:
+Edit [`hosts/<hostname>/configuration.nix`](hosts/sacculos/configuration.nix):
 ```nix
 {
   imports = [
@@ -217,9 +302,11 @@ mkdir -p hosts/<hostname>
 cp -r hosts/sacculos hosts/<hostname>
 ```
 
+See [`hosts/sacculos/`](hosts/sacculos/) for reference.
+
 ### 3. Edit hostname
 
-In `hosts/<hostname>/configuration.nix`:
+In [`hosts/<hostname>/configuration.nix`](hosts/sacculos/configuration.nix):
 ```diff
 - networking.hostName = "sacculos";
 + networking.hostName = "<hostname>";
@@ -227,7 +314,7 @@ In `hosts/<hostname>/configuration.nix`:
 
 ### 4. Edit disk conf
 
-In `hosts/<hostname>/disko.nix`, change disk path:
+In [`hosts/<hostname>/disko.nix`](hosts/sacculos/disko.nix), change disk path:
 ```diff
 {
   disko.devices = {
@@ -256,16 +343,19 @@ That's it! Flake auto-discovers the new host.
 
 ### Adding packages
 
-**For all users:**
-- Edit `profiles/shared/packages.nix`
+**For all users (Home Manager):**
+- Edit [`profiles/shared/packages.nix`](profiles/shared/packages.nix)
 - Add package under category comment
 
-**For specific user:**
-- Edit `profiles/<username>/packages.nix`
+**For specific user (Home Manager):**
+- Edit [`profiles/<username>/packages.nix`](profiles/paper/packages.nix)
+- **Or with custom config**
+  - Create [`profiles/shared/modules/<program>.nix`](profiles/shared/modules/)
+  - Import in [`profiles/shared/modules/default.nix`](profiles/shared/modules/default.nix)
 
-**W/ custom config:**
-- Create `profiles/shared/modules/<program>.nix`
-- Import in `profiles/shared/modules/default.nix`
+**System-wide (for all users under profile):**
+- Edit [`hosts/<hostname>/local-packages.nix`](hosts/sacculos/local-packages.nix)
+- Use for system utilities that need to be available globally
 
 ### Updating system
 
@@ -280,7 +370,7 @@ sudo nixos-rebuild switch --flake .#<hostname>
 ### Testing changes
 
 ```bash
-# Check syntax
+# Check 
 nix flake check
 
 # Build w/o switching
@@ -297,7 +387,7 @@ nixos-rebuild dry-run --flake .#<hostname>
 ### Rollback
 
 ```bash
-# List generations
+# List gens
 sudo nix-env --list-generations --profile /nix/var/nix/profiles/system
 
 # Rollback to prev
@@ -311,7 +401,7 @@ sudo /nix/var/nix/profiles/system/bin/switch-to-configuration switch
 ### Cleanup
 
 ```bash
-# Remove old gens (older than 7d)
+# Remove old gens
 sudo nix-collect-garbage --delete-older-than 7d
 
 # Optimize store
@@ -335,54 +425,27 @@ git clone https://github.com/papersaccul/sccl_nix.git /mnt/etc/nixos
 cd /mnt/etc/nixos
 ```
 
-#### 3. Create host
+#### 3. Setup ur host & profile
 
-Create ur own host in `./hosts/*`
+Follow [Adding New Hosts](#adding-new-hosts) section to create ur host config.
 
-it should look something like this:
-```
-hosts
-└── sacculos
-    ├── configuration.nix           # imports and other shi
-    ├── disko.nix                   # disk conf
-    ├── hardware-configuration.nix  # generated file
-    └── local-packages.nix          # programs
-```
+If u wanna add ur own profile instead of using mine, follow [Adding New Profiles](#adding-new-profiles) section.
 
-U can copy my conf:
+Quick version:
 ```bash
-cp -r /mnt/etc/nixos/hosts/sacculos /mnt/etc/nixos/hosts/<YOUR_HOSTNAME>
-```
+# Copy existing host
+cp -r hosts/sacculos hosts/<YOUR_HOSTNAME>
 
-Edit `configuration.nix`:
-```diff
-...
-- networking.hostName = "sacculos";
-+ networking.hostName = "<YOUR_HOSTNAME>";
-...
-```
+# Edit hostname in configuration.nix
+# Edit disk paths in disko.nix (check w/ lsblk)
 
-Edit `disko.nix`, set up partitions as u like:
-```diff
-{
-  disko.devices = {
-    disk.nvme0n1 = {              # Disc label (any)
-        device = "/dev/nvme0n1";  # Path of main disk, check w/ lsblk
-...
-```
-
-generate `hardware-configuration.nix`:
-```bash
+# Generate hardware conf
 nixos-generate-config --root /mnt --show-hardware-config --no-filesystems > hosts/<YOUR_HOSTNAME>/hardware-configuration.nix
 ```
 
 #### 4. Install NixOS
 
 ```bash
-# Install w/ my host
-nixos-install --flake .#sacculos
-
-# Install w/ ur own
 nixos-install --flake .#<YOUR_HOSTNAME>
 ```
 
@@ -391,9 +454,7 @@ nixos-install --flake .#<YOUR_HOSTNAME>
 #### 6. Reboot
 
 ```bash
-umount -r /dev/nvme0n1
-# umount -r /dev/sda1
-
+umount -r /dev/nvme0n1  # or ur disk
 reboot
 ```
 
@@ -413,9 +474,9 @@ git clone https://github.com/papersaccul/sccl_nix
 cd sccl_nix
 ```
 
-#### 3. Copy ur hardware conf
+#### 3. Setup ur host
 
-Or create ur own following step 3 above:
+Follow [Adding New Hosts](#adding-new-hosts) to create ur host config, or just copy ur hardware conf:
 ```bash
 sudo cp /etc/nixos/hardware-configuration.nix hosts/sacculos/
 ```
@@ -425,15 +486,13 @@ sudo cp /etc/nixos/hardware-configuration.nix hosts/sacculos/
 #### 5. Test the conf
 
 ```bash
-sudo nixos-rebuild test --flake .#sacculos
-# sudo nixos-rebuild test --flake .#<YOUR_HOSTNAME>
+sudo nixos-rebuild test --flake .#<YOUR_HOSTNAME>
 ```
 
 #### 6. If everything works, switch
 
 ```bash
-sudo nixos-rebuild switch --flake .#sacculos
-# sudo nixos-rebuild switch --flake .#<YOUR_HOSTNAME>
+sudo nixos-rebuild switch --flake .#<YOUR_HOSTNAME>
 ```
 
 ---
