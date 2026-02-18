@@ -16,8 +16,8 @@
       input {
           keyboard {
               xkb {
-                  layout "colemak_caws,rulemak_caws"
-                  options "caps:backspace,grp:rwin_toggle,lv3:ralt_switch"
+                  layout "colemak_caws,rulemak_caws"                         // change it to ur own, like "en, de, fr"
+                  options "caps:backspace,grp:rwin_toggle,lv3:ralt_switch"       // capslock == backspace, rSuper for layout toggle, rAlt == AltGr
               }
           }
 
@@ -25,8 +25,9 @@
               accel-speed -0.8
           }
 
-          focus-follows-mouse
+          focus-follows-mouse               // am lamer frfr
       }
+
 
       output "DP-2" {
           mode "2560x1440@500"
@@ -52,7 +53,7 @@
 
       prefer-no-csd
 
-      binds {
+      binds {                                   // ColemakCAWS keybindings, bad 4 qwerty
           Mod+Return { spawn "alacritty"; }
           Mod+A { spawn "fuzzel"; }
           Mod+F { spawn "thunar"; }
@@ -88,27 +89,28 @@
           Mod+9 { focus-workspace 9; }
           Mod+0 { focus-workspace 10; }
 
-          Mod+Shift+1 { move-column-to-workspace 1; }
-          Mod+Shift+2 { move-column-to-workspace 2; }
-          Mod+Shift+3 { move-column-to-workspace 3; }
-          Mod+Shift+4 { move-column-to-workspace 4; }
-          Mod+Shift+5 { move-column-to-workspace 5; }
-          Mod+Shift+6 { move-column-to-workspace 6; }
-          Mod+Shift+7 { move-column-to-workspace 7; }
-          Mod+Shift+8 { move-column-to-workspace 8; }
-          Mod+Shift+9 { move-column-to-workspace 9; }
-          Mod+Shift+0 { move-column-to-workspace 10; }
+          Mod+Shift+1 { move-column-to-workspace 1; } // wane
+          Mod+Shift+2 { move-column-to-workspace 2; } // tfo
+          Mod+Shift+3 { move-column-to-workspace 3; } // free?
+          Mod+Shift+4 { move-column-to-workspace 4; } // for
+          Mod+Shift+5 { move-column-to-workspace 5; } // fih
+          Mod+Shift+6 { move-column-to-workspace 6; } // sex
+          Mod+Shift+7 { move-column-to-workspace 7; } // 676767
+          Mod+Shift+8 { move-column-to-workspace 8; } // eih
+          Mod+Shift+9 { move-column-to-workspace 9; } // hitler
+          Mod+Shift+0 { move-column-to-workspace 10; } // wanenone
 
           Mod+Escape { focus-workspace-previous; }
-
+          
+          // i wanna change this screenshoter tool, but am too lazy to research, pls open merge ruquest in my repo with the bttr solution :3
           Mod+Shift+A { spawn "sh" "-c" "grim -g \"$(slurp)\" ~/Pictures/$(date +'%Y%m%d_%H%M%S').png"; }
           Mod+Shift+S { spawn "sh" "-c" "grim -g \"$(slurp)\" - | wl-copy"; }
 
-          XF86AudioRaiseVolume { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%+"; }
+          XF86AudioRaiseVolume { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%+"; } // inf roll 4 burn out ur headphones
           XF86AudioLowerVolume { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%-"; }
-          XF86AudioMute { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
+          XF86AudioMute { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }      // fr i dont have kb with this bttn, but mb ive build it in the future
 
-          // Advanced window management keybindings
+          // windowo management keybindings
           Mod+Comma { move-column-left; }
           Mod+Period { move-column-right; }
 
@@ -123,7 +125,6 @@
           Mod+M { switch-preset-column-width; }
           Mod+Shift+M { maximize-column; }
 
-          // Объединить/разъединить окна в колонку (для вертикального стека)
           Mod+V { consume-window-into-column; }
           Mod+Shift+V { expel-window-from-column; }
 
