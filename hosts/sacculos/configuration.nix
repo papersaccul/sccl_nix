@@ -35,7 +35,7 @@
 
     programs.flclashx.enable = true;
 
-    programs.nix-ld.enable = true;
+    programs.nix-ld.enable = true; # runs proprietary garbage
     programs.nix-ld.libraries = with pkgs; [
         gcc.cc.lib
         glibc

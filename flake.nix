@@ -2,9 +2,9 @@
   description = "sacculos NixOS configuration";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11"; # stable packages frfr
 
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable"; # fresh packages, might break tho
 
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
@@ -30,7 +30,7 @@ let
     inherit system;
   };
 
-  # host config creator
+  # host builder go brrr
   mkHost = hostName: nixpkgs.lib.nixosSystem {
     inherit system;
 

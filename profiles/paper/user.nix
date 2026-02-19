@@ -3,10 +3,10 @@
 {
   users.users.paper = {
     isNormalUser = true;
-    description = "Paper";
+    description = "Paper"; # tipo bumaga?
     extraGroups = [ "networkmanager" "wheel" "video" "audio" ];
     shell = pkgs.fish;
-    initialPassword = "change";
+    initialPassword = "change"; # initial psswd, dont forget to change
   };
 
   programs.fish.enable = true;

@@ -39,16 +39,21 @@
           center-focused-column "never"
 
           border {
-              width 2
+              width 1
               active-color "#81a1c1"
               inactive-color "#4c566a"
           }
 
           focus-ring {
-              width 2
+              width 1
               active-color "#81a1c1"
               inactive-color "#4c566a"
           }
+      }
+
+      window-rule {
+          clip-to-geometry true
+          geometry-corner-radius 12
       }
 
       prefer-no-csd

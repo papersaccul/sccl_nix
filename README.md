@@ -28,7 +28,7 @@
 - **Fonts:** JetBrains Mono, Noto, Font Awesome, Nerd Fonts
 
 **System packages** -> `hosts/sacculos/*` (all users on this host):
-- **Utils:** vim, wget, curl, git, htop, tree, nano, fastfetch
+- **Utils:** vim, wget, curl, git, htop, tree, nano, fastfetch, hyfetch (iykyk :D)
 - **Archive:** p7zip, unzip, zip
 - **Network:** networkmanagerapplet, webcord
 - **Services:** zapret-discord-youtube (DPI bypass)

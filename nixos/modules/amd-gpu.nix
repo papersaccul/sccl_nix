@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 {
-  # AMD 6750XT Graphics
+  # amd graphics, no nvidia here
   services.xserver.videoDrivers = [ "amdgpu" ];
 
   hardware.graphics = {
@@ -20,6 +20,6 @@
   ];
 
   environment.variables = {
-    AMD_VULKAN_ICD = "RADV";
+    AMD_VULKAN_ICD = "RADV"; # use radv instead of amdvlk
   };
 }

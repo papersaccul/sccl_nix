@@ -6,7 +6,7 @@
   networking = {
     networkmanager = {
       enable = true;
-      wifi.powersave = false;
+      wifi.powersave = false; # stable connection > battery
     };
 
     firewall = {

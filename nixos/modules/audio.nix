@@ -1,17 +1,17 @@
 { config, lib, pkgs, ... }:
 
 {
-  # PipeWire
-  security.rtkit.enable = true;
+  # pipewire 4 audio n video
+  security.rtkit.enable = true; # realtime audio frfr
 
   services.pipewire = {
-    enable = true;
+    enable = true; # pipewire + alsa + pulse + jack
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
     jack.enable = true;
   };
 
-  # Disable PulseAudio
-  services.pulseaudio.enable = false;  # Исправлено: hardware -> services
+  # pulseaudio is dead
+  services.pulseaudio.enable = false;
 }

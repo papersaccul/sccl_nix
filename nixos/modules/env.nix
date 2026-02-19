@@ -3,8 +3,8 @@
 {
   environment = {
     variables = {
-      EDITOR = "vim";
-      VISUAL = "vim";
+      EDITOR = "vim"; # btw i use vim
+      VISUAL = "vim"; # visual, ok.
     };
 
     sessionVariables = {

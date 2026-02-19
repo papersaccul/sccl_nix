@@ -3,14 +3,14 @@
 {
   boot = {
     loader = {
-      systemd-boot.enable = true;
+      systemd-boot.enable = true; # using systemd-boot instead of grub
       efi.canTouchEfiVariables = true;
       timeout = 3;
     };
 
-    # Plymouth
+    # pretty boot screen
     plymouth.enable = true;
 
-    kernelParams = [ "quiet" "splash" ];
+    kernelParams = [ "quiet" "splash" ]; # hide boot messages, show splash
   };
 }

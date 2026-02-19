@@ -1,6 +1,8 @@
 { config, pkgs, ... }:
 
 {
+  stylix.targets.waybar.enable = false;
+
   programs.waybar = {
     enable = true;
 
@@ -8,8 +10,8 @@
       mainBar = {
         layer = "top";
         position = "top";
-        height = 34;
-        spacing = 8;
+        height = 34; # not too thicc, not too thin
+        spacing = 0;
 
         modules-left = [ "niri/workspaces" "niri/window" ];
         modules-center = [ "clock" ];
@@ -137,16 +139,22 @@
       * {
         font-family: "JetBrainsMono Nerd Font", sans-serif;
         font-size: 13px;
-        font-weight: 500;
         border: none;
         border-radius: 0;
         min-height: 0;
       }
 
       window#waybar {
-        background: rgba(46, 52, 64, 0.9);
-        color: #eceff4;
-        border-bottom: 2px solid #81a1c1;
+        background: transparent;
+        color: #effff4;
+      }
+
+      window#waybar > box {
+        background: rgba(36, 41, 51, 1.0);
+        border-radius: 12px;
+        margin: 6px 10px 0px 10px;
+        padding: 0 8px;
+        border: 2px solid rgba(46, 52, 64, 0.9);
       }
 
       #workspaces {
@@ -157,33 +165,66 @@
 
       #workspaces button {
         padding: 0 8px;
-        color: #d8dee9;
         background: transparent;
         border-radius: 8px;
         margin: 0 3px;
         transition: all 0.3s;
+        box-shadow: none;
+        border-bottom: none;
       }
 
       #workspaces button:hover {
-        background: rgba(129, 161, 193, 0.3);
-        color: #eceff4;
+        background: #4c566a;
       }
 
       #workspaces button.active {
-        background: #81a1c1;
         color: #2e3440;
+        box-shadow: none;
+        border-bottom: none;
       }
+
+      #workspaces button:nth-child(1) { color: #bf616a; font-weight: 700; background: rgb(46, 52, 64) }  /* not gay rainbow ;/    */
+      #workspaces button:nth-child(1).active { background: #bf616a; color: #2e3440; font-weight: 700; }
+      
+      #workspaces button:nth-child(2) { color: #d08770; font-weight: 700; background: rgb(46, 52, 64) }
+      #workspaces button:nth-child(2).active { background: #d08770; color: #2e3440; font-weight: 700; }
+      
+      #workspaces button:nth-child(3) { color: #ebcb8b; font-weight: 700; background: rgb(46, 52, 64) }
+      #workspaces button:nth-child(3).active { background: #ebcb8b; color: #2e3440; font-weight: 700; }
+      
+      #workspaces button:nth-child(4) { color: #a3be8c; font-weight: 700; background: rgb(46, 52, 64) }
+      #workspaces button:nth-child(4).active { background: #a3be8c; color: #2e3440; font-weight: 700; }
+      
+      #workspaces button:nth-child(5) { color: #8fbcbb; font-weight: 700; background: rgb(46, 52, 64) }
+      #workspaces button:nth-child(5).active { background: #8fbcbb; color: #2e3440; font-weight: 700; }
+      
+      #workspaces button:nth-child(6) { color: #88c0d0; font-weight: 700; background: rgb(46, 52, 64) }
+      #workspaces button:nth-child(6).active { background: #88c0d0; color: #2e3440; font-weight: 700; }
+      
+      #workspaces button:nth-child(7) { color: #81a1c1; font-weight: 700; background: rgb(46, 52, 64) }
+      #workspaces button:nth-child(7).active { background: #81a1c1; color: #2e3440; font-weight: 700; }
+      
+      #workspaces button:nth-child(8) { color: #5e81ac; font-weight: 700; background: rgb(46, 52, 64) }
+      #workspaces button:nth-child(8).active { background: #5e81ac; color: #2e3440; font-weight: 700; }
+      
+      #workspaces button:nth-child(9) { color: #b48ead; font-weight: 700; background: rgb(46, 52, 64) }
+      #workspaces button:nth-child(9).active { background: #b48ead; color: #2e3440; font-weight: 700; }
+      
+      #workspaces button:nth-child(10) { color: #d8dee9; font-weight: 700;background: rgb(46, 52, 64) }
+      #workspaces button:nth-child(10).active { background: #d8dee9; color: #2e3440; font-weight: 700; }
 
       #workspaces button.urgent {
         background: #bf616a;
         color: #eceff4;
+        font-weight: 700;
       }
 
       #window {
         margin: 5px 10px;
         padding: 2px 12px;
         color: #88c0d0;
-        font-weight: 600;
+        font-weight: 500;
+        background: none;
       }
 
       #clock {

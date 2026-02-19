@@ -11,6 +11,7 @@
     tree
     nano
     fastfetch
+    hyfetch
 
     # Archive tools
     p7zip
