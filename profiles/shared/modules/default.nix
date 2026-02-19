@@ -19,5 +19,6 @@
     ./cursor.nix
     ./zed-editor.nix
     ./btop.nix
+    ./fetch.nix
   ];
 }

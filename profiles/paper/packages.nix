@@ -4,6 +4,7 @@
   home.packages = with pkgs; [
     # Network
     ayugram-desktop
+    librewolf
 
     # Development
     lmstudio
@@ -31,5 +32,6 @@
 
     # Office
     libreoffice-fresh
+    
   ];
 }

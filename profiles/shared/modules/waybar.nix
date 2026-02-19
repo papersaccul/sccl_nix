@@ -246,7 +246,7 @@
       #tray {
         margin: 5px 2px;
         padding: 2px 10px;
-        background: rgba(67, 76, 94, 0.6);
+        background: rgb(46, 52, 64);
         color: #eceff4;
         border-radius: 8px;
       }
@@ -313,7 +313,7 @@
       }
 
       tooltip {
-        background: rgba(46, 52, 64, 0.95);
+        background: rgb(46, 52, 64);
         border: 2px solid #81a1c1;
         border-radius: 8px;
         color: #eceff4;
