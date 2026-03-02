@@ -12,5 +12,8 @@
     plymouth.enable = true;
 
     kernelParams = [ "quiet" "splash" ]; # hide boot messages, show splash
+
+    # CachyOS kernel
+    kernelPackages = lib.mkForce pkgs.linuxPackages_cachyos;
   };
 }
