@@ -16,9 +16,10 @@
 
     stylix.url = "github:danth/stylix/release-25.11";
     zapret-discord-youtube.url = "github:kartavkun/zapret-discord-youtube";
+    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
   };
 
-outputs = { self, nixpkgs, nixpkgs-unstable, disko, home-manager, stylix, ... }@inputs:
+outputs = { self, nixpkgs, nixpkgs-unstable, disko, home-manager, stylix, chaotic, ... }@inputs:
 let
   system = "x86_64-linux";
 
@@ -47,6 +48,7 @@ let
       stylix.nixosModules.stylix
       disko.nixosModules.disko
       home-manager.nixosModules.home-manager
+      chaotic.nixosModules.default
     ];
   };
 

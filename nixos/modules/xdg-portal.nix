@@ -4,16 +4,23 @@
   xdg.portal = {
     enable = true;
     extraPortals = [
-      pkgs.xdg-desktop-portal-gnome
+      pkgs.xdg-desktop-portal-wlr
       pkgs.xdg-desktop-portal-gtk
     ];
     config = {
-      niri = {
-        default = [ "gnome" "gtk" ];
-        "org.freedesktop.impl.portal.ScreenCast" = [ "gnome" ];
-        "org.freedesktop.impl.portal.Screenshot" = [ "gnome" ];
-        "org.freedesktop.impl.portal.Secret" = [ "gnome-keyring" ];
+      sway = {
+        default = [ "gtk" ];
+        "org.freedesktop.impl.portal.ScreenCast" = [ "wlr" ];
+        "org.freedesktop.impl.portal.Screenshot" = [ "wlr" ];
       };
+    };
+  };
+
+  # wlr portal compatibility
+  systemd.user.services.xdg-desktop-portal-wlr = {
+    environment = {
+      WAYLAND_DISPLAY = "wayland-1";
+      XDG_CURRENT_DESKTOP = "sway";
     };
   };
 
@@ -26,19 +33,9 @@
     wireplumber.enable = true;
   };
 
-  # Enable OBS with Wayland support
-  programs.obs-studio = {
-    enable = true;
-    plugins = with pkgs.obs-studio-plugins; [
-      wlrobs
-      obs-pipewire-audio-capture
-      obs-vaapi
-    ];
-  };
-
   environment.systemPackages = with pkgs; [
     xdg-desktop-portal
-    xdg-desktop-portal-gnome
+    xdg-desktop-portal-wlr
     xdg-desktop-portal-gtk
   ];
 
@@ -50,6 +47,5 @@
   # Environment variables for proper portal detection
   environment.sessionVariables = {
     NIXOS_XDG_OPEN_USE_PORTAL = "1";
-    XDG_CURRENT_DESKTOP = "niri";
   };
 }

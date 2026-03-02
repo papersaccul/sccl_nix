@@ -5,6 +5,7 @@
     # Network
     ayugram-desktop
     librewolf
+    qbittorrent
 
     # Development
     lmstudio
@@ -12,13 +13,14 @@
     rustc
     cargo
     gcc
+    obsidian
 
     # Gaming
     steam
     protonplus
-    obs-studio
     steam-run
     bottles
+    modrinth-app
 
     # Creative Tools
     kdePackages.kdenlive
@@ -32,6 +34,6 @@
 
     # Office
     libreoffice-fresh
-    
+
   ];
 }

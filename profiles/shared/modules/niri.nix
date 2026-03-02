@@ -5,7 +5,50 @@
     niri
     xwayland-satellite
     swaybg
+    swayidle
+    wayfreeze
+    grim
+    slurp
+    swappy
+    cliphist
+    wl-clipboard
   ];
+
+  systemd.user.services.cliphist = {
+    Unit = {
+      Description = "Clipboard history manager";
+      PartOf = [ "graphical-session.target" ];
+      After = [ "graphical-session.target" ];
+    };
+    Service = {
+      ExecStart = "${pkgs.wl-clipboard}/bin/wl-paste --type text --watch ${pkgs.cliphist}/bin/cliphist store";
+      Restart = "on-failure";
+    };
+    Install.WantedBy = [ "graphical-session.target" ];
+  };
+
+  systemd.user.services.cliphist-images = {
+    Unit = {
+      Description = "Clipboard history manager for images";
+      PartOf = [ "graphical-session.target" ];
+      After = [ "graphical-session.target" ];
+    };
+    Service = {
+      ExecStart = "${pkgs.wl-clipboard}/bin/wl-paste --type image --watch ${pkgs.cliphist}/bin/cliphist store";
+      Restart = "on-failure";
+    };
+    Install.WantedBy = [ "graphical-session.target" ];
+  };
+
+  xdg.configFile."xdg-desktop-portal/portals.conf" = {
+    enable = true;
+    text = ''
+      [preferred]
+      default=gtk
+      org.freedesktop.impl.portal.ScreenCast=wlr
+      org.freedesktop.impl.portal.Screenshot=wlr
+    '';
+  };
 
   xdg.configFile."niri/config.kdl" = {
     enable = true;
@@ -107,9 +150,9 @@
 
           Mod+Escape { focus-workspace-previous; }
           
-          // i wanna change this screenshoter tool, but am too lazy to research, pls open merge ruquest in my repo with the bttr solution :3
-          Mod+Shift+A { spawn "sh" "-c" "grim -g \"$(slurp)\" ~/Pictures/$(date +'%Y%m%d_%H%M%S').png"; }
-          Mod+Shift+S { spawn "sh" "-c" "grim -g \"$(slurp)\" - | wl-copy"; }
+          // Screenshots with frozen screen using wayfreeze
+          Mod+Shift+S { spawn "sh" "-c" "wayfreeze & FREEZE_PID=$!; sleep 0.1; grim -g \"$(slurp -d)\" - | wl-copy; kill $FREEZE_PID 2>/dev/null || true"; }
+          Mod+Shift+A { spawn "sh" "-c" "wayfreeze & FREEZE_PID=$!; sleep 0.1; grim -g \"$(slurp -d)\" - | swappy -f -; kill $FREEZE_PID 2>/dev/null || true"; }
 
           XF86AudioRaiseVolume { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%+"; } // inf roll 4 burn out ur headphones
           XF86AudioLowerVolume { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%-"; }
@@ -130,16 +173,19 @@
           Mod+M { switch-preset-column-width; }
           Mod+Shift+M { maximize-column; }
 
-          Mod+V { consume-window-into-column; }
-          Mod+Shift+V { expel-window-from-column; }
+          Mod+V { spawn "sh" "-c" "cliphist list | fuzzel --dmenu | cliphist decode | wl-copy"; }
+          Mod+B { consume-window-into-column; }
+          Mod+Shift+B { expel-window-from-column; }
 
           Mod+Space { toggle-window-floating; }
       }
 
+      spawn-at-startup "sh" "-c" "systemctl --user set-environment XDG_CURRENT_DESKTOP=sway && systemctl --user import-environment WAYLAND_DISPLAY && dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
       spawn-at-startup "swaybg" "-i" "${config.stylix.image}" "-m" "fill"
       spawn-at-startup "xwayland-satellite"
       spawn-at-startup "waybar"
       spawn-at-startup "dunst"
+      spawn-at-startup "swayidle" "-w" "timeout" "300" "niri msg action power-off-monitors"
 
       animations {
           window-open {

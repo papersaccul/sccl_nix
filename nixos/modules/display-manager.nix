@@ -5,7 +5,7 @@
     enable = true;
     settings = {
       default_session = {
-        command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd niri"; # tui, minimal af
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd niri-session"; # tui, minimal af
         user = "greeter";
       };
     };

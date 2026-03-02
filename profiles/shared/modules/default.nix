@@ -20,5 +20,6 @@
     ./zed-editor.nix
     ./btop.nix
     ./fetch.nix
+    ./obs.nix
   ];
 }
